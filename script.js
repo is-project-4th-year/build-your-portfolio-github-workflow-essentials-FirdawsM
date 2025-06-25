@@ -47,3 +47,30 @@ yearSpan.textContent = new Date().getFullYear();
 document.body.appendChild(document.createElement('footer'))
   .appendChild(document.createElement('div'))
   .appendChild(yearSpan);
+
+  // Contact Form Submission
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form values
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    // Here you would typically send to a server
+    console.log('Form submitted:', data);
+    
+    // Show success message
+    const submitBtn = this.querySelector('.submit-btn');
+    submitBtn.innerHTML = 'Message Sent!';
+    submitBtn.style.backgroundColor = '#4BB543';
+    
+    // Reset form after 2 seconds
+    setTimeout(() => {
+      this.reset();
+      submitBtn.innerHTML = 'Send Message <svg>...</svg>';
+      submitBtn.style.backgroundColor = '';
+    }, 2000);
+  });
+}
