@@ -9,6 +9,12 @@ document.querySelectorAll('.project-card').forEach(card => {
     }
   });
 
+  document.querySelector('.menu-toggle').addEventListener('click', function() {
+  document.querySelector('.nav-links').classList.toggle('active');
+});
+// Auto-update year in footer
+document.getElementById('year').textContent = new Date().getFullYear();
+
   // Dynamic tag coloring
   const tags = card.querySelectorAll('.project-tags span');
   tags.forEach(tag => {
@@ -74,3 +80,51 @@ if (contactForm) {
     }, 2000);
   });
 }
+window.addEventListener('scroll', function() {
+  const nav = document.querySelector('nav');
+  if (window.scrollY > 50) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
+});
+// Typewriter effect
+document.addEventListener('DOMContentLoaded', function() {
+  const typewriterElements = document.querySelectorAll('.typewriter');
+  
+  typewriterElements.forEach(el => {
+    const words = JSON.parse(el.getAttribute('data-words'));
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    let typingSpeed = 150;
+    
+    function type() {
+      const currentWord = words[wordIndex];
+      
+      if (isDeleting) {
+        el.textContent = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+        typingSpeed = 50;
+      } else {
+        el.textContent = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+        typingSpeed = 150;
+      }
+      
+      if (!isDeleting && charIndex === currentWord.length) {
+        isDeleting = true;
+        typingSpeed = 1500; // Pause at end of word
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        typingSpeed = 500; // Pause before typing next word
+      }
+      
+      setTimeout(type, typingSpeed);
+    }
+    
+    // Start the typewriter effect
+    setTimeout(type, 1000);
+  });
+});
